@@ -85,6 +85,10 @@ body {
   transition: all 0.2s ease;
   background: var(--pb-blue);
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .pb-key:hover {
@@ -363,6 +367,14 @@ body {
   padding: 2rem;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pb-chart-container canvas {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border: 2px dashed var(--pb-blue);
+  max-width: 100%;
+  height: auto;
 }
 
 .pb-chart-legend {
