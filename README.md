@@ -2,11 +2,6 @@
 
 Simulación de interfaz web de un cajero automático (ATM) para la empresa ficticia Pokémon Bank. Fase 1: Front-End con HTML5, CSS3 y Bootstrap 5.3.
 
-## Capturas
-
-[Placeholder: Aquí irá una captura de pantalla de la pantalla de login]
-
-[Placeholder: Aquí irá una captura de pantalla de la pantalla de acciones]
 
 ## Tecnologías usadas
 
