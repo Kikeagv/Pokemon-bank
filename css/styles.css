@@ -62,7 +62,6 @@ body {
 }
 
 .pb-pin-inputs input:focus {
-  outline: none;
   border-color: var(--pb-red);
   box-shadow: 0 0 0 3px rgba(238, 21, 21, 0.2);
 }

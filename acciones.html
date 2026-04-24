@@ -15,7 +15,7 @@
       <div class="pb-header-user-name">Ash Ketchum</div>
       <div class="pb-header-user-account">151-0025-0001</div>
     </div>
-    <img src="images/trainer-avatar.png" alt="Avatar" class="pb-header-avatar">
+    <img src="images/trainer-avatar.png" alt="Foto de perfil de Ash Ketchum" class="pb-header-avatar">
     <a href="index.html" class="pb-btn-exit">Salir</a>
   </header>
 
@@ -27,32 +27,32 @@
 
     <div class="pb-actions-grid">
       <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalDepositar">
-        <i class="bi bi-arrow-down-circle"></i>
+        <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>
         <span>Depositar</span>
       </button>
 
       <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalRetirar">
-        <i class="bi bi-arrow-up-circle"></i>
+        <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>
         <span>Retirar</span>
       </button>
 
       <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalConsultar">
-        <i class="bi bi-wallet2"></i>
+        <i class="bi bi-wallet2" aria-hidden="true"></i>
         <span>Consultar saldo</span>
       </button>
 
       <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalPagar">
-        <i class="bi bi-receipt"></i>
+        <i class="bi bi-receipt" aria-hidden="true"></i>
         <span>Pagar servicios</span>
       </button>
 
       <a href="historial.html" class="pb-action-btn">
-        <i class="bi bi-clock-history"></i>
+        <i class="bi bi-clock-history" aria-hidden="true"></i>
         <span>Historial</span>
       </a>
 
       <a href="grafico.html" class="pb-action-btn">
-        <i class="bi bi-bar-chart"></i>
+        <i class="bi bi-bar-chart" aria-hidden="true"></i>
         <span>Ver gráfico</span>
       </a>
     </div>
@@ -86,11 +86,11 @@
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label">Montos rápidos</label>
-            <div class="pb-quick-amounts">
-              <button type="button" class="pb-quick-amount">$20</button>
-              <button type="button" class="pb-quick-amount">$50</button>
-              <button type="button" class="pb-quick-amount">$100</button>
-              <button type="button" class="pb-quick-amount">$200</button>
+            <div class="pb-quick-amounts" role="group" aria-label="Montos rápidos">
+              <button type="button" class="pb-quick-amount" aria-label="$20">$20</button>
+              <button type="button" class="pb-quick-amount" aria-label="$50">$50</button>
+              <button type="button" class="pb-quick-amount" aria-label="$100">$100</button>
+              <button type="button" class="pb-quick-amount" aria-label="$200">$200</button>
             </div>
           </div>
           <div class="mb-3">
