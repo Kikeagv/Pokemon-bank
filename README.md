@@ -1,6 +1,6 @@
 # Pokémon Bank
 
-Simulación de interfaz web de un cajero automático (ATM) para la empresa ficticia Pokémon Bank. Fase 1: Front-End con HTML5, CSS3 y Bootstrap 5.3.
+Simulación de interfaz web de un cajero automático (ATM) para la empresa ficticia Pokémon Bank. Fase 2: interfaz funcional con HTML5, CSS3, Bootstrap y JavaScript del lado del cliente.
 
 
 ## Tecnologías usadas
@@ -9,6 +9,12 @@ Simulación de interfaz web de un cajero automático (ATM) para la empresa ficti
 - CSS3 con variables CSS
 - Bootstrap 5.3 (CDN)
 - Bootstrap Icons (CDN)
+- JavaScript
+- LocalStorage y SessionStorage
+- ValidateJS
+- SweetAlert
+- jsPDF
+- Chart.js
 - Git + GitHub
 
 ## Estructura de carpetas
@@ -22,7 +28,8 @@ pokemon-bank/
 ├── css/
 │   └── styles.css          # Estilos personalizados
 ├── js/
-│   └── .gitkeep            # Carpeta reservada para fase 2
+│   ├── .gitkeep
+│   └── app.js              # Lógica de login, transacciones, PDF y gráfico
 ├── images/
 │   ├── logo.png            # Logo Pokémon Bank
 │   └── trainer-avatar.png  # Avatar del usuario
@@ -61,6 +68,18 @@ index.html (Login)
 ## Usuario de prueba
 
 - **Nombre:** Ash Ketchum
-- **Número de cuenta:** 151-0025-0001
-- **PIN:** 2580
-- **Saldo:** $1,250.75
+- **Número de cuenta:** 0987654321
+- **PIN:** 1234
+- **Saldo inicial:** $500.00
+
+## Funcionalidades de fase 2
+
+- Login por PIN con validación de 4 dígitos.
+- Inicialización y persistencia de usuario en LocalStorage.
+- Control de sesión con SessionStorage.
+- Depósitos, retiros, consulta de saldo y pago de servicios.
+- Validación de campos con ValidateJS.
+- Diálogos interactivos con SweetAlert.
+- Comprobante PDF por transacción con jsPDF.
+- Historial dinámico de transacciones.
+- Gráfico de cantidad de transacciones por tipo con Chart.js.
