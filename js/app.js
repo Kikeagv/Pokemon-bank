@@ -16,10 +16,12 @@ const money = new Intl.NumberFormat('es-SV', {
   currency: 'USD'
 });
 
+// Crea una copia limpia de los datos iniciales para evitar modificar la plantilla.
 function cloneDefaultState() {
   return JSON.parse(JSON.stringify(defaultState));
 }
 
+// Inicializa o recupera la informacion persistente del usuario desde LocalStorage.
 function getState() {
   const savedState = localStorage.getItem(STORAGE_KEY);
 
@@ -50,6 +52,7 @@ function saveState(state) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+// SessionStorage mantiene activa la sesion solo mientras dura la pestaña.
 function isLoggedIn() {
   return sessionStorage.getItem(SESSION_KEY) === 'active';
 }
@@ -111,6 +114,7 @@ function clearFieldError(input) {
   }
 }
 
+// Valida montos con ValidateJS antes de procesar transacciones.
 function validateAmount(input, label = 'Monto') {
   clearFieldError(input);
   const errors = validate.single(input.value, {
@@ -142,6 +146,7 @@ function buildTransaction(type, description, amount, balance) {
   };
 }
 
+// Actualiza saldo, registra la transaccion y guarda todo en LocalStorage.
 function addTransaction(type, description, amount) {
   const state = getState();
   const newBalance = Number((state.user.balance + amount).toFixed(2));
@@ -154,6 +159,7 @@ function addTransaction(type, description, amount) {
   return transaction;
 }
 
+// Genera el comprobante descargable de una transaccion con jsPDF.
 function generateReceipt(transaction) {
   const state = getState();
   const { jsPDF } = window.jspdf;
@@ -206,6 +212,7 @@ function askForReceipt(transaction, title) {
   });
 }
 
+// Controla el teclado numerico del PIN y valida el acceso del usuario de prueba.
 function handleLoginPage() {
   const pinInputs = Array.from(document.querySelectorAll('[data-pin-input]'));
   const keys = document.querySelectorAll('[data-key]');
@@ -294,6 +301,7 @@ function handleActionsPage() {
   const serviceInput = document.getElementById('servicio');
   let selectedServiceButton = null;
 
+  // Muestra una sola pantalla de operacion, simulando el flujo de un ATM.
   function setView(viewName) {
     document.querySelectorAll('[data-atm-view]').forEach((view) => {
       const isTarget = view.dataset.atmView === viewName;
@@ -312,6 +320,7 @@ function handleActionsPage() {
     clearFieldError(input);
   }
 
+  // Captura montos desde el teclado propio del cajero en lugar del teclado del sistema.
   function updateAmountFromKey(input, key) {
     clearFieldError(input);
 
@@ -347,6 +356,7 @@ function handleActionsPage() {
     input.value = nextValue.replace(/^0+(?=\d)/, '');
   }
 
+  // Construye los teclados numericos reutilizables para deposito, retiro y pagos.
   function renderAmountKeypads() {
     const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'clear', '0', 'backspace', '.', 'confirm'];
     const labels = {
@@ -400,6 +410,7 @@ function handleActionsPage() {
     askForReceipt(transaction, 'Deposito realizado');
   });
 
+  // Los montos rapidos imitan opciones comunes de retiro en cajeros automaticos.
   document.querySelectorAll('[data-set-amount]').forEach((button) => {
     button.addEventListener('click', () => {
       const targetInput = document.getElementById(button.dataset.targetInput);
@@ -500,6 +511,7 @@ function handleActionsPage() {
 
 }
 
+// Pinta el historial usando las transacciones guardadas en LocalStorage.
 function renderHistoryPage() {
   const historyBody = document.querySelector('[data-history-body]');
   const state = getState();
@@ -529,6 +541,7 @@ function renderHistoryPage() {
   }).join('');
 }
 
+// Chart.js muestra cuantas transacciones se realizaron por cada tipo.
 function renderChartPage() {
   const state = getState();
   const counts = ['Deposito', 'Retiro', 'Pago', 'Consulta'].map((type) => {
@@ -572,6 +585,7 @@ function renderChartPage() {
   });
 }
 
+// Punto de entrada: activa solo la logica necesaria para la pagina actual.
 document.addEventListener('DOMContentLoaded', () => {
   requireSession();
   const page = document.body.dataset.page;
