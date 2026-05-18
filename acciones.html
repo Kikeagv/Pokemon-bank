@@ -8,21 +8,21 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
-<body>
+<body data-page="actions">
   <header class="pb-header">
     <img src="images/logo.png" alt="Pokémon Bank" class="pb-header-logo">
     <div class="pb-header-user">
-      <div class="pb-header-user-name">Ash Ketchum</div>
-      <div class="pb-header-user-account">151-0025-0001</div>
+      <div class="pb-header-user-name" data-user-name>Ash Ketchum</div>
+      <div class="pb-header-user-account" data-user-account>0987654321</div>
     </div>
     <img src="images/trainer-avatar.png" alt="Foto de perfil de Ash Ketchum" class="pb-header-avatar">
-    <a href="index.html" class="pb-btn-exit">Salir</a>
+    <a href="index.html" class="pb-btn-exit" data-logout>Salir</a>
   </header>
 
   <main class="container py-4">
-    <div class="pb-balance-card">
+    <div class="pb-balance-card" aria-live="polite">
       <div class="pb-balance-label">Saldo disponible</div>
-      <div class="pb-balance-amount">$1,250.75</div>
+      <div class="pb-balance-amount" data-user-balance>$500.00</div>
     </div>
 
     <div class="pb-actions-grid">
@@ -68,9 +68,10 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="montoDeposito" class="form-label">Monto a depositar</label>
-            <input type="number" class="form-control" id="montoDeposito" placeholder="0.00">
+            <input type="number" class="form-control" id="montoDeposito" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+            <div class="invalid-feedback"></div>
           </div>
-          <button type="button" class="pb-btn-confirm">Confirmar</button>
+          <button type="button" class="pb-btn-confirm" data-action="deposit">Confirmar depósito</button>
         </div>
       </div>
     </div>
@@ -87,17 +88,18 @@
           <div class="mb-3">
             <label class="form-label">Montos rápidos</label>
             <div class="pb-quick-amounts" role="group" aria-label="Montos rápidos">
-              <button type="button" class="pb-quick-amount" aria-label="$20">$20</button>
-              <button type="button" class="pb-quick-amount" aria-label="$50">$50</button>
-              <button type="button" class="pb-quick-amount" aria-label="$100">$100</button>
-              <button type="button" class="pb-quick-amount" aria-label="$200">$200</button>
+              <button type="button" class="pb-quick-amount" aria-label="$20" data-quick-amount="20">$20</button>
+              <button type="button" class="pb-quick-amount" aria-label="$50" data-quick-amount="50">$50</button>
+              <button type="button" class="pb-quick-amount" aria-label="$100" data-quick-amount="100">$100</button>
+              <button type="button" class="pb-quick-amount" aria-label="$200" data-quick-amount="200">$200</button>
             </div>
           </div>
           <div class="mb-3">
             <label for="montoRetiro" class="form-label">Otro monto</label>
-            <input type="number" class="form-control" id="montoRetiro" placeholder="0.00">
+            <input type="number" class="form-control" id="montoRetiro" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+            <div class="invalid-feedback"></div>
           </div>
-          <button type="button" class="pb-btn-confirm">Confirmar</button>
+          <button type="button" class="pb-btn-confirm" data-action="withdraw">Confirmar retiro</button>
         </div>
       </div>
     </div>
@@ -112,7 +114,8 @@
         </div>
         <div class="modal-body text-center">
           <p class="mb-2">Su saldo actual es:</p>
-          <h2 class="pb-balance-amount">$1,250.75</h2>
+          <h2 class="pb-balance-amount" data-user-balance>$500.00</h2>
+          <button type="button" class="pb-btn-confirm mt-3" data-action="consult">Registrar consulta</button>
         </div>
       </div>
     </div>
@@ -135,17 +138,23 @@
               <option value="telefonia">Telefonía</option>
               <option value="agua">Agua potable</option>
             </select>
+            <div class="invalid-feedback"></div>
           </div>
           <div class="mb-3">
             <label for="montoPago" class="form-label">Monto a pagar</label>
-            <input type="number" class="form-control" id="montoPago" placeholder="0.00">
+            <input type="number" class="form-control" id="montoPago" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
+            <div class="invalid-feedback"></div>
           </div>
-          <button type="button" class="pb-btn-confirm">Confirmar</button>
+          <button type="button" class="pb-btn-confirm" data-action="payment">Confirmar pago</button>
         </div>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
