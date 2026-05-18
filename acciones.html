@@ -19,137 +19,156 @@
     <a href="index.html" class="pb-btn-exit" data-logout>Salir</a>
   </header>
 
-  <main class="container py-4">
-    <div class="pb-balance-card" aria-live="polite">
-      <div class="pb-balance-label">Saldo disponible</div>
-      <div class="pb-balance-amount" data-user-balance>$500.00</div>
-    </div>
+  <main class="pb-atm-stage">
+    <section class="pb-atm-view is-active" data-atm-view="menu" aria-labelledby="menuTitle">
+      <div class="pb-balance-card" aria-live="polite">
+        <div class="pb-balance-label">Saldo disponible</div>
+        <div class="pb-balance-amount" data-user-balance>$500.00</div>
+      </div>
 
-    <div class="pb-actions-grid">
-      <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalDepositar">
-        <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>
-        <span>Depositar</span>
-      </button>
+      <h1 class="pb-screen-title" id="menuTitle">Seleccione una operación</h1>
 
-      <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalRetirar">
-        <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>
-        <span>Retirar</span>
-      </button>
+      <div class="pb-actions-grid">
+        <button class="pb-action-btn" type="button" data-go-view="deposit">
+          <i class="bi bi-arrow-down-circle" aria-hidden="true"></i>
+          <span>Depositar</span>
+        </button>
 
-      <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalConsultar">
-        <i class="bi bi-wallet2" aria-hidden="true"></i>
-        <span>Consultar saldo</span>
-      </button>
+        <button class="pb-action-btn" type="button" data-go-view="withdraw">
+          <i class="bi bi-arrow-up-circle" aria-hidden="true"></i>
+          <span>Retirar</span>
+        </button>
 
-      <button class="pb-action-btn" data-bs-toggle="modal" data-bs-target="#modalPagar">
-        <i class="bi bi-receipt" aria-hidden="true"></i>
-        <span>Pagar servicios</span>
-      </button>
+        <button class="pb-action-btn" type="button" data-go-view="consult">
+          <i class="bi bi-wallet2" aria-hidden="true"></i>
+          <span>Consultar saldo</span>
+        </button>
 
-      <a href="historial.html" class="pb-action-btn">
-        <i class="bi bi-clock-history" aria-hidden="true"></i>
-        <span>Historial</span>
-      </a>
+        <button class="pb-action-btn" type="button" data-go-view="payment">
+          <i class="bi bi-receipt" aria-hidden="true"></i>
+          <span>Pagar servicios</span>
+        </button>
 
-      <a href="grafico.html" class="pb-action-btn">
-        <i class="bi bi-bar-chart" aria-hidden="true"></i>
-        <span>Ver gráfico</span>
-      </a>
-    </div>
+        <a href="historial.html" class="pb-action-btn">
+          <i class="bi bi-clock-history" aria-hidden="true"></i>
+          <span>Historial</span>
+        </a>
+
+        <a href="grafico.html" class="pb-action-btn">
+          <i class="bi bi-bar-chart" aria-hidden="true"></i>
+          <span>Ver gráfico</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="pb-atm-view" data-atm-view="deposit" aria-labelledby="depositTitle" hidden>
+      <div class="pb-operation-header">
+        <button type="button" class="pb-atm-control pb-atm-control-muted" data-go-view="menu">
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          Atrás
+        </button>
+        <h1 class="pb-screen-title" id="depositTitle">Depósito</h1>
+      </div>
+
+      <div class="pb-transaction-layout">
+        <div class="pb-amount-panel">
+          <label class="pb-amount-label" for="montoDeposito">Monto a depositar</label>
+          <input class="pb-amount-display" id="montoDeposito" type="text" inputmode="none" readonly value="0.00" data-amount-input data-error-target="depositError">
+          <div class="invalid-feedback pb-atm-error" id="depositError"></div>
+          <button type="button" class="pb-btn-confirm pb-atm-confirm" data-action="deposit">Confirmar depósito</button>
+        </div>
+
+        <div class="pb-amount-keypad" data-keypad-for="montoDeposito" aria-label="Teclado numerico para deposito"></div>
+      </div>
+    </section>
+
+    <section class="pb-atm-view" data-atm-view="withdraw" aria-labelledby="withdrawTitle" hidden>
+      <div class="pb-operation-header">
+        <button type="button" class="pb-atm-control pb-atm-control-muted" data-go-view="menu">
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          Atrás
+        </button>
+        <h1 class="pb-screen-title" id="withdrawTitle">Retiro</h1>
+      </div>
+
+      <div class="pb-quick-amounts" role="group" aria-label="Montos rápidos de retiro">
+        <button type="button" class="pb-quick-amount" data-set-amount="20" data-target-input="montoRetiro">$20</button>
+        <button type="button" class="pb-quick-amount" data-set-amount="50" data-target-input="montoRetiro">$50</button>
+        <button type="button" class="pb-quick-amount" data-set-amount="100" data-target-input="montoRetiro">$100</button>
+        <button type="button" class="pb-quick-amount" data-set-amount="200" data-target-input="montoRetiro">$200</button>
+      </div>
+
+      <div class="pb-transaction-layout">
+        <div class="pb-amount-panel">
+          <label class="pb-amount-label" for="montoRetiro">Monto a retirar</label>
+          <input class="pb-amount-display" id="montoRetiro" type="text" inputmode="none" readonly value="0.00" data-amount-input data-error-target="withdrawError">
+          <div class="invalid-feedback pb-atm-error" id="withdrawError"></div>
+          <button type="button" class="pb-btn-confirm pb-atm-confirm" data-action="withdraw">Confirmar retiro</button>
+        </div>
+
+        <div class="pb-amount-keypad" data-keypad-for="montoRetiro" aria-label="Teclado numerico para retiro"></div>
+      </div>
+    </section>
+
+    <section class="pb-atm-view" data-atm-view="consult" aria-labelledby="consultTitle" hidden>
+      <div class="pb-operation-header">
+        <button type="button" class="pb-atm-control pb-atm-control-muted" data-go-view="menu">
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          Atrás
+        </button>
+        <h1 class="pb-screen-title" id="consultTitle">Consulta de saldo</h1>
+      </div>
+
+      <div class="pb-consult-screen">
+        <div class="pb-balance-label">Saldo disponible</div>
+        <div class="pb-balance-amount" data-user-balance>$500.00</div>
+        <button type="button" class="pb-btn-confirm pb-atm-confirm" data-action="consult">Generar comprobante</button>
+      </div>
+    </section>
+
+    <section class="pb-atm-view" data-atm-view="payment" aria-labelledby="paymentTitle" hidden>
+      <div class="pb-operation-header">
+        <button type="button" class="pb-atm-control pb-atm-control-muted" data-go-view="menu">
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          Atrás
+        </button>
+        <h1 class="pb-screen-title" id="paymentTitle">Pago de servicios</h1>
+      </div>
+
+      <div class="pb-service-grid" role="group" aria-label="Servicios disponibles">
+        <button type="button" class="pb-service-btn" data-service="Energía eléctrica">
+          <i class="bi bi-lightning-charge" aria-hidden="true"></i>
+          Energía
+        </button>
+        <button type="button" class="pb-service-btn" data-service="Internet">
+          <i class="bi bi-wifi" aria-hidden="true"></i>
+          Internet
+        </button>
+        <button type="button" class="pb-service-btn" data-service="Telefonía">
+          <i class="bi bi-telephone" aria-hidden="true"></i>
+          Telefonía
+        </button>
+        <button type="button" class="pb-service-btn" data-service="Agua potable">
+          <i class="bi bi-droplet" aria-hidden="true"></i>
+          Agua
+        </button>
+      </div>
+
+      <input type="hidden" id="servicio" value="" data-error-target="serviceError">
+      <div class="invalid-feedback pb-atm-error" id="serviceError"></div>
+
+      <div class="pb-transaction-layout">
+        <div class="pb-amount-panel">
+          <label class="pb-amount-label" for="montoPago">Monto a pagar</label>
+          <input class="pb-amount-display" id="montoPago" type="text" inputmode="none" readonly value="0.00" data-amount-input data-error-target="paymentError">
+          <div class="invalid-feedback pb-atm-error" id="paymentError"></div>
+          <button type="button" class="pb-btn-confirm pb-atm-confirm" data-action="payment">Confirmar pago</button>
+        </div>
+
+        <div class="pb-amount-keypad" data-keypad-for="montoPago" aria-label="Teclado numerico para pago"></div>
+      </div>
+    </section>
   </main>
-
-  <div class="modal fade" id="modalDepositar" tabindex="-1" aria-labelledby="modalDepositarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header pb-modal-header">
-          <h5 class="modal-title" id="modalDepositarLabel">Depositar</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="montoDeposito" class="form-label">Monto a depositar</label>
-            <input type="number" class="form-control" id="montoDeposito" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
-            <div class="invalid-feedback"></div>
-          </div>
-          <button type="button" class="pb-btn-confirm" data-action="deposit">Confirmar depósito</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="modalRetirar" tabindex="-1" aria-labelledby="modalRetirarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header pb-modal-header">
-          <h5 class="modal-title" id="modalRetirarLabel">Retirar</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Montos rápidos</label>
-            <div class="pb-quick-amounts" role="group" aria-label="Montos rápidos">
-              <button type="button" class="pb-quick-amount" aria-label="$20" data-quick-amount="20">$20</button>
-              <button type="button" class="pb-quick-amount" aria-label="$50" data-quick-amount="50">$50</button>
-              <button type="button" class="pb-quick-amount" aria-label="$100" data-quick-amount="100">$100</button>
-              <button type="button" class="pb-quick-amount" aria-label="$200" data-quick-amount="200">$200</button>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="montoRetiro" class="form-label">Otro monto</label>
-            <input type="number" class="form-control" id="montoRetiro" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
-            <div class="invalid-feedback"></div>
-          </div>
-          <button type="button" class="pb-btn-confirm" data-action="withdraw">Confirmar retiro</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="modalConsultar" tabindex="-1" aria-labelledby="modalConsultarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header pb-modal-header">
-          <h5 class="modal-title" id="modalConsultarLabel">Consultar Saldo</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body text-center">
-          <p class="mb-2">Su saldo actual es:</p>
-          <h2 class="pb-balance-amount" data-user-balance>$500.00</h2>
-          <button type="button" class="pb-btn-confirm mt-3" data-action="consult">Registrar consulta</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="modalPagar" tabindex="-1" aria-labelledby="modalPagarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header pb-modal-header">
-          <h5 class="modal-title" id="modalPagarLabel">Pagar Servicios</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="servicio" class="form-label">Seleccione servicio</label>
-            <select class="form-select" id="servicio">
-              <option value="">-- Seleccionar --</option>
-              <option value="energia">Energía eléctrica</option>
-              <option value="internet">Internet</option>
-              <option value="telefonia">Telefonía</option>
-              <option value="agua">Agua potable</option>
-            </select>
-            <div class="invalid-feedback"></div>
-          </div>
-          <div class="mb-3">
-            <label for="montoPago" class="form-label">Monto a pagar</label>
-            <input type="number" class="form-control" id="montoPago" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal">
-            <div class="invalid-feedback"></div>
-          </div>
-          <button type="button" class="pb-btn-confirm" data-action="payment">Confirmar pago</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>

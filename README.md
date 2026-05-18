@@ -78,6 +78,8 @@ index.html (Login)
 - Inicialización y persistencia de usuario en LocalStorage.
 - Control de sesión con SessionStorage.
 - Depósitos, retiros, consulta de saldo y pago de servicios.
+- Flujo visual tipo ATM: cada operación ocupa la pantalla de trabajo y usa botones grandes.
+- Teclado numérico propio para PIN y para captura de montos.
 - Validación de campos con ValidateJS.
 - Diálogos interactivos con SweetAlert.
 - Comprobante PDF por transacción con jsPDF.

@@ -87,19 +87,27 @@ function bindLogout() {
 
 function showFieldError(input, message) {
   input.classList.add('is-invalid');
-  const feedback = input.closest('.mb-3')?.querySelector('.invalid-feedback');
+  const feedbackId = input.dataset.errorTarget;
+  const feedback = feedbackId
+    ? document.getElementById(feedbackId)
+    : input.closest('.mb-3')?.querySelector('.invalid-feedback');
 
   if (feedback) {
     feedback.textContent = message;
+    feedback.style.display = 'block';
   }
 }
 
 function clearFieldError(input) {
   input.classList.remove('is-invalid');
-  const feedback = input.closest('.mb-3')?.querySelector('.invalid-feedback');
+  const feedbackId = input.dataset.errorTarget;
+  const feedback = feedbackId
+    ? document.getElementById(feedbackId)
+    : input.closest('.mb-3')?.querySelector('.invalid-feedback');
 
   if (feedback) {
     feedback.textContent = '';
+    feedback.style.display = '';
   }
 }
 
@@ -144,15 +152,6 @@ function addTransaction(type, description, amount) {
   saveState(state);
   renderAccountInfo();
   return transaction;
-}
-
-function closeModal(modalId) {
-  const modalElement = document.getElementById(modalId);
-  const modal = bootstrap.Modal.getInstance(modalElement);
-
-  if (modal) {
-    modal.hide();
-  }
 }
 
 function generateReceipt(transaction) {
@@ -293,20 +292,119 @@ function handleActionsPage() {
   const withdrawInput = document.getElementById('montoRetiro');
   const paymentInput = document.getElementById('montoPago');
   const serviceInput = document.getElementById('servicio');
+  let selectedServiceButton = null;
+
+  function setView(viewName) {
+    document.querySelectorAll('[data-atm-view]').forEach((view) => {
+      const isTarget = view.dataset.atmView === viewName;
+      view.hidden = !isTarget;
+      view.classList.toggle('is-active', isTarget);
+    });
+
+    const firstAction = document.querySelector(`[data-atm-view="${viewName}"] button, [data-atm-view="${viewName}"] a`);
+    if (firstAction) {
+      firstAction.focus();
+    }
+  }
+
+  function resetAmount(input) {
+    input.value = '0.00';
+    clearFieldError(input);
+  }
+
+  function updateAmountFromKey(input, key) {
+    clearFieldError(input);
+
+    if (key === 'clear') {
+      input.value = '0.00';
+      return;
+    }
+
+    if (key === 'backspace') {
+      input.value = input.value.length > 1 ? input.value.slice(0, -1) : '0.00';
+      if (input.value === '' || input.value === '0') {
+        input.value = '0.00';
+      }
+      return;
+    }
+
+    if (key === '.' && input.value.includes('.')) {
+      return;
+    }
+
+    if (key === '.' && input.value === '0.00') {
+      input.value = '0.';
+      return;
+    }
+
+    const nextValue = input.value === '0.00' ? key : `${input.value}${key}`;
+    const decimalPart = nextValue.split('.')[1];
+
+    if (decimalPart && decimalPart.length > 2) {
+      return;
+    }
+
+    input.value = nextValue.replace(/^0+(?=\d)/, '');
+  }
+
+  function renderAmountKeypads() {
+    const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'clear', '0', 'backspace', '.', 'confirm'];
+    const labels = {
+      clear: 'C',
+      backspace: '⌫',
+      confirm: 'OK'
+    };
+
+    document.querySelectorAll('[data-keypad-for]').forEach((keypad) => {
+      const targetInput = document.getElementById(keypad.dataset.keypadFor);
+      keypad.innerHTML = keys.map((key) => {
+        const className = key === 'clear'
+          ? 'pb-key btn-clear'
+          : key === 'confirm'
+            ? 'pb-key btn-action pb-key-wide'
+            : 'pb-key';
+        const label = labels[key] || key;
+        return `<button class="${className}" type="button" data-amount-key="${key}">${label}</button>`;
+      }).join('');
+
+      keypad.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-amount-key]');
+        if (!button) return;
+
+        const key = button.dataset.amountKey;
+        if (key === 'confirm') {
+          targetInput.closest('.pb-transaction-layout').querySelector('[data-action]').click();
+          return;
+        }
+
+        updateAmountFromKey(targetInput, key);
+      });
+    });
+  }
+
+  renderAmountKeypads();
+
+  document.querySelectorAll('[data-go-view]').forEach((button) => {
+    button.addEventListener('click', () => {
+      setView(button.dataset.goView);
+    });
+  });
 
   document.querySelector('[data-action="deposit"]').addEventListener('click', () => {
     const amount = validateAmount(depositInput);
     if (amount === null) return;
 
     const transaction = addTransaction('Deposito', 'Deposito en cajero Pokemon Bank', amount);
-    depositInput.value = '';
-    closeModal('modalDepositar');
+    resetAmount(depositInput);
+    setView('menu');
     askForReceipt(transaction, 'Deposito realizado');
   });
 
-  document.querySelectorAll('[data-quick-amount]').forEach((button) => {
+  document.querySelectorAll('[data-set-amount]').forEach((button) => {
     button.addEventListener('click', () => {
-      withdrawInput.value = button.dataset.quickAmount;
+      const targetInput = document.getElementById(button.dataset.targetInput);
+      targetInput.value = Number(button.dataset.setAmount).toFixed(2);
+      clearFieldError(targetInput);
       withdrawInput.focus();
     });
   });
@@ -323,15 +421,15 @@ function handleActionsPage() {
     }
 
     const transaction = addTransaction('Retiro', 'Retiro en cajero Pokemon Bank', amount * -1);
-    withdrawInput.value = '';
-    closeModal('modalRetirar');
+    resetAmount(withdrawInput);
+    setView('menu');
     askForReceipt(transaction, 'Retiro realizado');
   });
 
   document.querySelector('[data-action="consult"]').addEventListener('click', () => {
     const state = getState();
     const transaction = addTransaction('Consulta', 'Consulta de saldo', 0);
-    closeModal('modalConsultar');
+    setView('menu');
     swal({
       title: 'Saldo disponible',
       text: `${state.user.name}, su saldo actual es ${money.format(state.user.balance)}.`,
@@ -347,6 +445,22 @@ function handleActionsPage() {
       if (value === 'pdf') {
         generateReceipt(transaction);
       }
+    });
+  });
+
+  document.querySelectorAll('[data-service]').forEach((button) => {
+    button.addEventListener('click', () => {
+      serviceInput.value = button.dataset.service;
+      clearFieldError(serviceInput);
+
+      if (selectedServiceButton) {
+        selectedServiceButton.classList.remove('is-selected');
+        selectedServiceButton.setAttribute('aria-pressed', 'false');
+      }
+
+      selectedServiceButton = button;
+      selectedServiceButton.classList.add('is-selected');
+      selectedServiceButton.setAttribute('aria-pressed', 'true');
     });
   });
 
@@ -372,11 +486,15 @@ function handleActionsPage() {
       return;
     }
 
-    const selectedService = serviceInput.options[serviceInput.selectedIndex].text;
-    const transaction = addTransaction('Pago', selectedService, amount * -1);
-    paymentInput.value = '';
+    const transaction = addTransaction('Pago', serviceInput.value, amount * -1);
+    resetAmount(paymentInput);
     serviceInput.value = '';
-    closeModal('modalPagar');
+    if (selectedServiceButton) {
+      selectedServiceButton.classList.remove('is-selected');
+      selectedServiceButton.setAttribute('aria-pressed', 'false');
+      selectedServiceButton = null;
+    }
+    setView('menu');
     askForReceipt(transaction, 'Pago realizado');
   });
 

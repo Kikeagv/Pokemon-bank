@@ -242,6 +242,60 @@ select:focus-visible {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
 }
 
+.pb-atm-stage {
+  margin: 0 auto;
+  max-width: 1120px;
+  min-height: calc(100vh - 86px);
+  padding: 1.25rem;
+}
+
+.pb-atm-view[hidden] {
+  display: none;
+}
+
+.pb-screen-title {
+  color: var(--pb-light);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 800;
+  margin: 0 0 1.25rem;
+  text-align: center;
+}
+
+.pb-operation-header {
+  align-items: center;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(120px, 180px) 1fr minmax(120px, 180px);
+  margin-bottom: 1.25rem;
+}
+
+.pb-operation-header .pb-screen-title {
+  grid-column: 2;
+  margin-bottom: 0;
+}
+
+.pb-atm-control {
+  align-items: center;
+  border: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  font-size: 1.05rem;
+  font-weight: 800;
+  gap: 0.5rem;
+  justify-content: center;
+  min-height: 64px;
+  padding: 0.75rem 1rem;
+}
+
+.pb-atm-control-muted {
+  background: #e2e8f0;
+  color: var(--pb-dark);
+}
+
+.pb-atm-control-muted:hover {
+  background: #cbd5e1;
+}
+
 .pb-balance-label {
   font-size: 0.9rem;
   text-transform: uppercase;
@@ -273,14 +327,14 @@ select:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem 1rem;
+  padding: 2rem 1rem;
   background: #f8fafc;
   border: 2px solid var(--pb-blue);
   border-radius: 8px;
   text-decoration: none;
   color: var(--pb-dark);
   transition: all 0.2s ease;
-  min-height: 120px;
+  min-height: 164px;
 }
 
 .pb-action-btn:hover {
@@ -295,14 +349,14 @@ select:focus-visible {
 }
 
 .pb-action-btn i {
-  font-size: 2.5rem;
+  font-size: 3.25rem;
   color: var(--pb-blue);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .pb-action-btn span {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   text-align: center;
 }
 
@@ -340,31 +394,156 @@ select:focus-visible {
   min-height: 48px;
 }
 
+.pb-transaction-layout {
+  align-items: stretch;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+}
+
+.pb-amount-panel,
+.pb-consult-screen {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f8fafc 100%);
+  border: 3px solid #8fb7e8;
+  border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 420px;
+  padding: 2rem;
+}
+
+.pb-consult-screen {
+  margin: 0 auto;
+  max-width: 720px;
+  text-align: center;
+}
+
+.pb-amount-label {
+  color: #1e293b;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.pb-amount-display {
+  background: #08111f;
+  border: 3px solid #3154a4;
+  border-radius: 8px;
+  color: var(--pb-yellow);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(2.5rem, 8vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 1rem;
+  min-height: 112px;
+  padding: 1rem;
+  text-align: right;
+  width: 100%;
+}
+
+.pb-amount-display.is-invalid {
+  border-color: var(--pb-danger);
+}
+
+.pb-atm-error {
+  color: #b91c1c;
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  min-height: 1.5rem;
+  text-align: left;
+}
+
+.pb-atm-confirm {
+  font-size: 1.15rem;
+  margin-top: auto;
+  min-height: 72px;
+}
+
+.pb-amount-keypad {
+  background: linear-gradient(180deg, #3b4558 0%, #202938 100%);
+  border: 3px solid #546179;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 1rem;
+}
+
+.pb-amount-keypad .pb-key {
+  font-size: 1.4rem;
+  min-height: 76px;
+}
+
+.pb-key-wide {
+  grid-column: span 2;
+}
+
 .pb-btn-confirm:hover {
   background: #388E3C;
   color: white;
 }
 
 .pb-quick-amounts {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 1.25rem;
 }
 
 .pb-quick-amount {
   background: var(--pb-blue);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  min-height: 72px;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
   font-weight: 700;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .pb-quick-amount:hover {
   background: var(--pb-dark);
+}
+
+.pb-service-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 0.75rem;
+}
+
+.pb-service-btn {
+  align-items: center;
+  background: #f8fafc;
+  border: 2px solid var(--pb-blue);
+  border-radius: 8px;
+  color: var(--pb-dark);
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  font-weight: 800;
+  gap: 0.5rem;
+  justify-content: center;
+  min-height: 112px;
+  padding: 1rem;
+}
+
+.pb-service-btn i {
+  color: var(--pb-blue);
+  font-size: 2rem;
+}
+
+.pb-service-btn:hover,
+.pb-service-btn.is-selected {
+  background: var(--pb-yellow);
+  border-color: var(--pb-yellow);
+  color: var(--pb-dark);
 }
 
 .pb-history-table {
@@ -557,8 +736,22 @@ select:focus-visible {
     font-size: 2rem;
   }
 
+  .pb-atm-stage {
+    min-height: calc(100vh - 71px);
+    padding: 1rem 0.75rem;
+  }
+
+  .pb-operation-header {
+    grid-template-columns: 1fr;
+  }
+
+  .pb-operation-header .pb-screen-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
   .pb-action-btn {
-    min-height: 100px;
+    min-height: 132px;
     padding: 1rem 0.5rem;
   }
 
@@ -567,7 +760,34 @@ select:focus-visible {
   }
 
   .pb-action-btn span {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
+  }
+
+  .pb-transaction-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pb-amount-panel,
+  .pb-consult-screen {
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .pb-amount-display {
+    min-height: 88px;
+  }
+
+  .pb-amount-keypad .pb-key {
+    min-height: 66px;
+  }
+
+  .pb-quick-amounts,
+  .pb-service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pb-service-btn {
+    min-height: 96px;
   }
 
   .pb-history-table {
@@ -586,6 +806,12 @@ select:focus-visible {
   .pb-chart-canvas {
     height: 300px;
     padding: 0.5rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 900px) {
+  .pb-transaction-layout {
+    grid-template-columns: 1fr;
   }
 }
 
